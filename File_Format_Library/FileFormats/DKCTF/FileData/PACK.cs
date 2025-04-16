@@ -97,8 +97,9 @@ namespace DKCTF
             {
                 string type = reader.ReadString(4, Encoding.ASCII);
                 var id = IOFileExtension.ReadID(reader);
-
-                string name = reader.ReadZeroTerminatedString();
+                int filenameLength = reader.ReadInt32();
+                char[] nameChars = reader.ReadChars(filenameLength);
+                string name = new string(nameChars);
 
                 // reader.Align(4);
                 NameTagEntries.Add(new CNameTagEntry()
@@ -136,6 +137,7 @@ namespace DKCTF
                 }
                 else
                 {
+                    long flag1 = reader.ReadUInt32();
                     Offset = reader.ReadInt64();
                     Size = reader.ReadInt64();
                     DecompressedSize = Size;
