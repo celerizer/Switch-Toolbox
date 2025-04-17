@@ -248,14 +248,14 @@ namespace DKCTF
 
                 FileEntry GetSkeleton()
                 {
-                    foreach (var c in pak.CharFiles)
+                    /*foreach (var c in pak.CharFiles)
                     {
                         foreach (var m in c.Value.Models)
                         {
                             if (AssetEntry.FileID.ToString() == m.FileID.ToString())
                                 return pak.SkeletonFiles[c.Value.SkeletonFileID.ToString()];
                         }
-                    }
+                    }*/
                     return null;
                 }
                 var skelFile = GetSkeleton();

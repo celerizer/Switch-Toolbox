@@ -112,9 +112,9 @@ namespace DKCTF
                         reader.SeekBegin(info.Offset + buffer.Offset);
 
                         //Decompress
-                        var data = IOFileExtension.DecompressedBuffer(reader, buffer.CompressedSize, buffer.DecompressedSize, IsSwitch);
-                      //  if (buffer.DecompressedSize != data.Length)
-                      //      throw new Exception();
+                        var data = IOFileExtension.DecompressedBuffer(reader, buffer.CompressedSize, buffer.DecompressedSize, IsSwitch); // isswitch actually dont care
+                        if (buffer.DecompressedSize != data.Length)
+                            throw new Exception();
 
                         //All indices
                         var indices = BufferHelper.LoadIndexBuffer(data, this.IndexBuffer[i].IndexType, IsSwitch);
@@ -155,10 +155,10 @@ namespace DKCTF
                     {
                         var vertexInfo = VertexBuffers[j];
                         var bufferID = j * 2;
-                        if (!this.IsMPR)
-                            bufferID = j;
+                        //if (!this.IsMPR)
+                        //    bufferID = j;
 
-                        var vertices = BufferHelper.LoadVertexBuffer(vertexData, bufferID, vertexInfo, IsSwitch, this.IsMPR);
+                        var vertices = BufferHelper.LoadVertexBuffer(vertexData, bufferID, vertexInfo, IsSwitch, true);
 
                         //Read
                         foreach (var mesh in Meshes)
@@ -336,6 +336,15 @@ namespace DKCTF
 
                 if (this.IsMPR)
                     mesh = reader.ReadStruct<CRenderMesh>();
+                else if (true) // if harmony
+                {
+                    mesh.MaterialIndex = reader.ReadUInt16();
+                    mesh.VertexBufferIndex = reader.ReadByte();
+                    mesh.IndexBufferIndex = reader.ReadByte();
+                    mesh.IndexStart = reader.ReadUInt32();
+                    mesh.IndexCount = reader.ReadUInt32();
+                    reader.ReadByte(); // unknown 0x03
+                }
                 else
                 {
                     uint type = reader.ReadUInt32(); //prim type
@@ -371,7 +380,7 @@ namespace DKCTF
                 for (int j = 0; j < numAttributes; j++)
                     vertexBuffer.Components.Add(reader.ReadStruct<SVertexDataComponent>());
                 VertexBuffers.Add(vertexBuffer);
-                if (this.IsMPR)
+                if (true) // for harmony and mpr
                     reader.ReadByte();
             }
         }

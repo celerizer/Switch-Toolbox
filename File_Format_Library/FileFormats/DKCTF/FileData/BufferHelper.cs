@@ -92,6 +92,8 @@ namespace DKCTF
                             case CMDL.EVertexComponent.in_tangent0:
                                 vertex.Tangent = ReadData(reader, comp.Format);
                                 break;
+                            default:
+                                throw new Exception();
                         }
                     }
                 }
