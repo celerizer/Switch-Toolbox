@@ -62,14 +62,16 @@ namespace DKCTF
             {
                 Animations.Add(new CAnimationInfo()
                 {
-                    Name = IOFileExtension.ReadFixedString(reader, false),
+                    Name = IOFileExtension.ReadFixedString(reader, IsSwitch),
                     FileID = reader.ReadStruct<CObjectId>(),
                     field_1c = reader.ReadUInt32(),
                     field_20 = reader.ReadUInt32(),
                     field_24 = reader.ReadUInt16(),
                     field_26 = reader.ReadUInt16(),
                     field_28 = reader.ReadBoolean(),
+#if false
                     BoundingBox = reader.ReadStruct<CAABox>(),
+#endif
                 });
             }
 

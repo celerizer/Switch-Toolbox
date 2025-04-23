@@ -21,8 +21,8 @@ namespace DKCTF
         {
             if (!isSwitch)
                 return reader.ReadZeroTerminatedString();
-
-            uint len = reader.ReadUInt32();
+        
+           uint len = reader.ReadUInt32();
            return reader.ReadString((int)len, true);
         }
 
